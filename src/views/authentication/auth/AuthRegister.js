@@ -10,7 +10,8 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import { Link } from 'react-router-dom';
 import { ClienteService } from '../../../api/ClienteService';
 
@@ -20,7 +21,8 @@ import { Stack } from '@mui/system';
 export const AuthRegister = ({ title, subtitle, subtext }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [alertIsError, setAlertIsError] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -54,8 +56,15 @@ export const AuthRegister = ({ title, subtitle, subtext }) => {
     }
   });
 
-  const signup = () => {
-    ClienteService.signupClient(name, email, phone, password);
+  const handleClose = () => {
+    setOpenAlert(false);
+  };
+
+  const signup = async () => {
+    const result =  await ClienteService.signupClient(name, email, phone, password);
+    console.log(result)
+    setAlertIsError(result);
+    setOpenAlert(true);
   };
 
   const validateName = () => {
@@ -204,6 +213,7 @@ export const AuthRegister = ({ title, subtitle, subtext }) => {
             helperText={showErrorPhone ? errorPhone : ''}
             id="phone"
             variant="outlined"
+            placeholder="(00)00000-0000"
             fullWidth
             maxLength="11"
             value={phone}
@@ -296,6 +306,17 @@ export const AuthRegister = ({ title, subtitle, subtext }) => {
         >
           Continuar
         </Button>
+        <Snackbar open={openAlert} autoHideDuration={8000} onClose={handleClose}>
+          <MuiAlert
+            onClose={handleClose}
+            severity={alertIsError ? 'error' : 'success'}
+            sx={{ width: '100%' }}
+          >
+            {alertIsError
+              ? 'Houve um erro com o seu cadastro, revise seus dados e tente novamente'
+              : 'Cadastro realizado com sucesso'}
+          </MuiAlert>
+        </Snackbar>
       </Box>
       {subtitle}
     </div>
