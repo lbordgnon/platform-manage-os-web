@@ -40,15 +40,15 @@ const Register2 = () => (
             <AuthRegister
               subtext={
                 <Typography variant="subtitle1" textAlign="center" color="textSecondary" mb={1}>
-                  Your Social Campaigns
+                  Vipago Engenharia
                 </Typography>
               }
               subtitle={
                 <Stack direction="row" justifyContent="center" spacing={1} mt={3}>
                   <Typography color="textSecondary" variant="h6" fontWeight="400">
-                    Already have an Account?
+                    Já tem uma conta?
                   </Typography>
-                  <Typography 
+                  <Typography
                     component={Link}
                     to="/auth/login"
                     fontWeight="500"
@@ -57,7 +57,7 @@ const Register2 = () => (
                       color: 'primary.main',
                     }}
                   >
-                    Sign In
+                    Login
                   </Typography>
                 </Stack>
               }
