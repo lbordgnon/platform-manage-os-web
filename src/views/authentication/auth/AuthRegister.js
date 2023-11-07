@@ -10,7 +10,7 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import MuiAlert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { Link } from 'react-router-dom';
 import { ClienteService } from '../../../api/ClienteService';
@@ -61,10 +61,15 @@ export const AuthRegister = ({ title, subtitle, subtext }) => {
   };
 
   const signup = async () => {
-    const result =  await ClienteService.signupClient(name, email, phone, password);
-    console.log(result)
-    setAlertIsError(result);
-    setOpenAlert(true);
+    await ClienteService.signupClient(name, email, phone, password)
+      .then(function (response) {
+        setAlertIsError(false);
+        setOpenAlert(true);
+      })
+      .catch(function (error) {
+        setAlertIsError(true);
+        setOpenAlert(true);
+      });
   };
 
   const validateName = () => {
