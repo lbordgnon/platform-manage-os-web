@@ -1,5 +1,5 @@
 import {
-  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus
+  IconAperture, IconCopy, IconLayoutDashboard, IconLogin, IconMoodHappy, IconTypography, IconUserPlus, IconFilePencil
 } from '@tabler/icons';
 
 import { uniqueId } from 'lodash';
@@ -22,9 +22,9 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Typography',
-    icon: IconTypography,
-    href: '/ui/typography',
+    title: 'Criar OS',
+    icon: IconFilePencil,
+    href: '/create-os',
   },
   {
     id: uniqueId(),
