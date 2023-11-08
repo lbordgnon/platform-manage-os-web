@@ -48,22 +48,6 @@ const Menuitems = [
     icon: IconUserPlus,
     href: '/auth/register',
   },
-  {
-    navlabel: true,
-    subheader: 'Extra',
-  },
-  {
-    id: uniqueId(),
-    title: 'Icons',
-    icon: IconMoodHappy,
-    href: '/icons',
-  },
-  {
-    id: uniqueId(),
-    title: 'Sample Page',
-    icon: IconAperture,
-    href: '/sample-page',
-  },
 ];
 
 export default Menuitems;
