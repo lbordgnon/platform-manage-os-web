@@ -25,7 +25,7 @@ const Router = [
       { path: '/dashboard', exact: true, element: <Dashboard /> },
       { path: '/sample-page', exact: true, element: <SamplePage /> },
       { path: '/icons', exact: true, element: <Icons /> },
-      { path: '/create-os', exact: true, element: <CreateOsPage /> },
+      { path: '/create-os/:idRequest?', exact: true, element: <CreateOsPage /> },
       { path: '/ui/shadow', exact: true, element: <Shadow /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],

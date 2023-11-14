@@ -1,11 +1,11 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import { Typography, Grid, Button } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import { RequestService } from '../../api/RequestService';
-import { Link } from 'react-router-dom';
+import { Link,useParams  } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 
 export const CreateOsPage = () => {
@@ -15,6 +15,13 @@ export const CreateOsPage = () => {
   const [showErrorTitle, setShowErrorTitle] = useState(false);
   const [showErrorDescription, setShowErrorDescription] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
+
+  let { idRequest } = useParams();
+
+  useEffect(() => {
+    console.log('idRequest');
+    console.log(idRequest);
+  });
 
   const validateTtitle = () => {
     if (title === '') {

@@ -28,7 +28,6 @@ export const AuthLogin = ({ title, subtitle, subtext }) => {
         if (response.data === false) {
             setOpenAlert(true);
         } else {
-          console.log('2');
           history('/');
         }
       })
