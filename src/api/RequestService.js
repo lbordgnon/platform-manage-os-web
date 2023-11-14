@@ -10,4 +10,8 @@ export class RequestService {
       emailClient: email,
     });
   }
+
+  static async getRequestList(email) {
+    return await axios.get(`/Request/getRequestByClient?email=${email}`);
+  }
 }

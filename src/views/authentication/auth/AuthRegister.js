@@ -39,7 +39,6 @@ export const AuthRegister = ({ title, subtitle, subtext }) => {
   const [errorConfirmPassword, setErrorConfirmPassword] = useState('');
 
   useEffect(() => {
-    console.log('useEffect');
     if (
       name !== '' &&
       email !== '' &&
