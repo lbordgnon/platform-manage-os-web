@@ -11,7 +11,18 @@ export class RequestService {
     });
   }
 
+  static async EditOS(title, description,idRequest) {
+    return await axios.post(`/Request/editRequest?idRequest=${idRequest}`, {
+      title,
+      description,
+    });
+  }
+
   static async getRequestList(email) {
     return await axios.get(`/Request/getRequestByClient?email=${email}`);
+  }
+
+  static async getRequestById(id) {
+    return await axios.get(`/Request/getRequestById?id=${id}`);
   }
 }
