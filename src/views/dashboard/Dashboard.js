@@ -11,7 +11,7 @@ export const Dashboard = () => {
 
   useEffect(() => {
     getRequestList();
-  });
+  },[]);
 
   const getRequestList = async () => {
     await RequestService.getRequestList('lbordgnon@hotmail.com')

@@ -1,12 +1,13 @@
 import React from 'react';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Typography, Grid, Button } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import { RequestService } from '../../api/RequestService';
-import { Link,useParams  } from 'react-router-dom';
+import {useNavigate, Link, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
 
 export const CreateOsPage = () => {
   const [title, setTitle] = useState('');
@@ -15,12 +16,22 @@ export const CreateOsPage = () => {
   const [showErrorTitle, setShowErrorTitle] = useState(false);
   const [showErrorDescription, setShowErrorDescription] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
-
+  const [alertIsError, setAlertIsError] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const history = useNavigate();
   let { idRequest } = useParams();
 
   useEffect(() => {
-    console.log('idRequest');
-    console.log(idRequest);
+    if (idRequest) {
+      getRequestById();
+      setDisableButton(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (title !== '' && description !== '') {
+      setDisableButton(false);
+    }
   });
 
   const validateTtitle = () => {
@@ -43,8 +54,41 @@ export const CreateOsPage = () => {
 
   const createOS = async () => {
     await RequestService.createOS(title, description, email)
-      .then(function (response) {})
+      .then(function (response) {
+        setAlertIsError(false);
+        setOpenAlert(true);
+        history('/dashboard');
+      })
+      .catch(function (error) {
+        setAlertIsError(true);
+        setOpenAlert(true);
+      });
+  };
+
+  const editOS = async () => {
+    await RequestService.EditOS(title, description, idRequest)
+      .then(function (response) {
+        setAlertIsError(false);
+        setOpenAlert(true);
+        history('/dashboard');
+      })
+      .catch(function (error) {
+        setAlertIsError(true);
+        setOpenAlert(true);
+      });
+  };
+
+  const getRequestById = async () => {
+    await RequestService.getRequestById(idRequest)
+      .then(function (response) {
+        setTitle(response.data.title);
+        setDescription(response.data.description);
+      })
       .catch(function (error) {});
+  };
+
+  const handleClose = () => {
+    setOpenAlert(false);
   };
 
   return (
@@ -106,10 +150,21 @@ export const CreateOsPage = () => {
                     size="large"
                     fullWidth
                     component={Link}
-                    onClick={createOS}
+                    onClick={idRequest ? editOS : createOS}
+                    disabled={disableButton}
                   >
                     Cadastrar
                   </Button>
+                  {openAlert && (
+                    <Stack sx={{ width: '100%' }} spacing={2}>
+                      <Alert variant="filled" severity={alertIsError ? 'error' : 'success'}>
+                        {' '}
+                        {alertIsError
+                          ? 'Houve um erro com o sua OS, revise seus dados e tente novamente'
+                          : 'Ordem de serviço regristada com sucesso'}
+                      </Alert>
+                    </Stack>
+                  )}
                 </Stack>
               </Grid>
             </Grid>
