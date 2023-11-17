@@ -12,13 +12,22 @@ import {
 import DashboardCard from '../../../components/shared/DashboardCard';
 import IconButton from '@mui/material/IconButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import { useNavigate, Link } from 'react-router-dom'
+import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate, Link } from 'react-router-dom';
+import { statusRequest } from '../../../constants/Constants';
+import { RequestService } from '../../../api/RequestService';
 
 export const DashboardRequestList = ({ requests }) => {
   const history = useNavigate();
 
   const editRequest = async (id) => {
     history(`/create-os/${id}`);
+  };
+
+  const cancelRequest = async (id) => {
+    await RequestService.cancelOS(id)
+      .then(function (response) {})
+      .catch(function (error) {});
   };
 
   return (
@@ -85,7 +94,7 @@ export const DashboardRequestList = ({ requests }) => {
                       fontWeight: '500',
                     }}
                   >
-                    {request.status}
+                    {statusRequest[request.status]}
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -107,6 +116,9 @@ export const DashboardRequestList = ({ requests }) => {
                   >
                     <IconButton aria-label="delete" onClick={() => editRequest(request.id)}>
                       <EditNoteIcon />
+                    </IconButton>
+                    <IconButton aria-label="Close" onClick={() => cancelRequest(request.id)}>
+                      <CloseIcon />
                     </IconButton>
                   </Typography>
                 </TableCell>

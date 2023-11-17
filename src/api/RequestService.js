@@ -18,6 +18,10 @@ export class RequestService {
     });
   }
 
+  static async cancelOS(idRequest) {
+    return await axios.post(`/Request/editStatusRequest?idRequest=${idRequest}&status=4`);
+  }
+
   static async getRequestList(email) {
     return await axios.get(`/Request/getRequestByClient?email=${email}`);
   }
