@@ -21,11 +21,11 @@ const Router = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', element: <Navigate to="/dashboard" /> },
+      { path: '/', element: <Navigate to="/auth/login" /> },
       { path: '/dashboard', exact: true, element: <Dashboard /> },
+      { path: '/create-os/:idRequest?', exact: true, element: <CreateOsPage /> },
       { path: '/sample-page', exact: true, element: <SamplePage /> },
       { path: '/icons', exact: true, element: <Icons /> },
-      { path: '/create-os/:idRequest?', exact: true, element: <CreateOsPage /> },
       { path: '/ui/shadow', exact: true, element: <Shadow /> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
