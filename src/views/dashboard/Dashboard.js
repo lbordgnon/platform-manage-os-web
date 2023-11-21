@@ -16,14 +16,21 @@ export const Dashboard = () => {
   const history = useNavigate();
 
   useEffect(() => {
-    console.log('useEffect')
-    console.log(now.toUTCString() >= expires)
     if (!userLogin || now.toUTCString() >= expires) {
       history('/');
-    } else {
+    } else if(userType === 2) {
       getRequestList();
     }
+    else{
+      getRequestListEngineer();
+    }
   }, []);
+
+  const getRequestListEngineer = async () => {
+    await RequestService.getRequestListEngineer().then(function (response) {
+      setRequestList(response.data);
+    });
+  };
 
   const getRequestList = async () => {
     await RequestService.getRequestList(userLogin).then(function (response) {
@@ -36,7 +43,7 @@ export const Dashboard = () => {
       <Box>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={12}>
-            <DashboardRequestList requests={requestList} />
+            <DashboardRequestList requests={requestList} engineer={userType === 1} />
           </Grid>
         </Grid>
       </Box>

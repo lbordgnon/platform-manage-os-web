@@ -22,6 +22,14 @@ export class RequestService {
     return await axios.post(`/Request/editStatusRequest?idRequest=${idRequest}&status=4`);
   }
 
+  static async AddEngineer(idRequest,email) {
+    return await axios.post(`/Request/AddEngineer?idRequest=${idRequest}&emailEgineer=${email}`);
+  }
+
+  static async getRequestListEngineer() {
+    return await axios.get(`/Request/getRequestByEngineer`);
+  }
+
   static async getRequestList(email) {
     return await axios.get(`/Request/getRequestByClient?email=${email}`);
   }
