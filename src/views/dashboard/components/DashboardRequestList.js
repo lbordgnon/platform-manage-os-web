@@ -12,13 +12,16 @@ import {
 import DashboardCard from '../../../components/shared/DashboardCard';
 import IconButton from '@mui/material/IconButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate, Link } from 'react-router-dom';
 import { statusRequest } from '../../../constants/Constants';
 import { RequestService } from '../../../api/RequestService';
+import Cookie from 'js.cookie';
 
-export const DashboardRequestList = ({ requests }) => {
+export const DashboardRequestList = ({ requests, engineer }) => {
   const history = useNavigate();
+  const userLogin = Cookie.get('email');
 
   const editRequest = async (id) => {
     history(`/create-os/${id}`);
@@ -26,6 +29,12 @@ export const DashboardRequestList = ({ requests }) => {
 
   const cancelRequest = async (id) => {
     await RequestService.cancelOS(id)
+      .then(function (response) {})
+      .catch(function (error) {});
+  };
+
+  const AddEngineer = async (id) => {
+    await RequestService.AddEngineer(id, userLogin)
       .then(function (response) {})
       .catch(function (error) {});
   };
@@ -62,6 +71,13 @@ export const DashboardRequestList = ({ requests }) => {
                   Responsável
                 </Typography>
               </TableCell>
+              {engineer && (
+                <TableCell>
+                  <Typography variant="subtitle2" fontWeight={600}>
+                    Cliente
+                  </Typography>
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -107,6 +123,18 @@ export const DashboardRequestList = ({ requests }) => {
                     {request.idEngineer}
                   </Typography>
                 </TableCell>
+                {engineer && (
+                  <TableCell>
+                    <Typography
+                      sx={{
+                        fontSize: '15px',
+                        fontWeight: '500',
+                      }}
+                    >
+                      {request.idClient}
+                    </Typography>
+                  </TableCell>
+                )}
                 <TableCell>
                   <Typography
                     sx={{
@@ -120,6 +148,11 @@ export const DashboardRequestList = ({ requests }) => {
                     <IconButton aria-label="Close" onClick={() => cancelRequest(request.id)}>
                       <CloseIcon />
                     </IconButton>
+                    {engineer && (
+                      <IconButton aria-label="Personal" onClick={() => AddEngineer(request.id)}>
+                        <PersonAddIcon />
+                      </IconButton>
+                    )}
                   </Typography>
                 </TableCell>
               </TableRow>
