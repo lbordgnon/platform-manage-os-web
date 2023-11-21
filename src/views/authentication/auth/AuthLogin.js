@@ -14,6 +14,7 @@ import { UserService } from '../../../api/UserService';
 import MuiAlert from '@mui/material/Alert';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import Snackbar from '@mui/material/Snackbar';
+import Cookie from 'js.cookie';
 
 export const AuthLogin = ({ title, subtitle, subtext }) => {
   const [email, setEmail] = useState('');
@@ -25,11 +26,14 @@ export const AuthLogin = ({ title, subtitle, subtext }) => {
   const login = async () => {
     await UserService.login(email, password)
       .then(function (response) {
-        if (response.data === false) {
-            setOpenAlert(true);
-        } else {
-          history('/');
-        }
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time + 1000 * 36000;
+        now.setTime(expireTime);
+        Cookie.set('email', response.data.login)
+        Cookie.set('userType', response.data.userType)
+        Cookie.set('expires', now.toUTCString())
+        history('/dashboard');
       })
       .catch(function (error) {
         setOpenAlert(true);

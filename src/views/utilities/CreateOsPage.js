@@ -8,11 +8,15 @@ import { RequestService } from '../../api/RequestService';
 import {useNavigate, Link, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
+import Cookie from 'js.cookie';
 
 export const CreateOsPage = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const email = 'lbordgnon@hotmail.com';
+  const userLogin = Cookie.get('email');
+  const expires = Cookie.get('expires');
+  const userType = Cookie.get('userType');
+  var now = new Date();
   const [showErrorTitle, setShowErrorTitle] = useState(false);
   const [showErrorDescription, setShowErrorDescription] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
@@ -22,6 +26,9 @@ export const CreateOsPage = () => {
   let { idRequest } = useParams();
 
   useEffect(() => {
+    if (!userLogin || now.toUTCString() >= expires) {
+      history('/');
+    }
     if (idRequest) {
       getRequestById();
       setDisableButton(false);
@@ -53,7 +60,7 @@ export const CreateOsPage = () => {
   };
 
   const createOS = async () => {
-    await RequestService.createOS(title, description, email)
+    await RequestService.createOS(title, description, userLogin)
       .then(function (response) {
         setAlertIsError(false);
         setOpenAlert(true);
