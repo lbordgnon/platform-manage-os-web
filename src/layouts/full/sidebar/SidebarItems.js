@@ -1,5 +1,7 @@
 import React from 'react';
 import Menuitems from './MenuItems';
+import MenuItemsEngineer from './MenuItemsEngineer';
+import Cookie from 'js.cookie';
 import { useLocation } from 'react-router';
 import { Box, List } from '@mui/material';
 import NavItem from './NavItem';
@@ -8,11 +10,13 @@ import NavGroup from './NavGroup/NavGroup';
 const SidebarItems = () => {
   const { pathname } = useLocation();
   const pathDirect = pathname;
+  const userType = Cookie.get('userType');
+  const menu = userType === 1 ? MenuItemsEngineer : Menuitems
 
   return (
     <Box sx={{ px: 3 }}>
       <List sx={{ pt: 0 }} className="sidebarNav">
-        {Menuitems.map((item) => {
+        {menu.map((item) => {
           if (item.subheader) {
             return <NavGroup item={item} key={item.subheader} />;
           } else {

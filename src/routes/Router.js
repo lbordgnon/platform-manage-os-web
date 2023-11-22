@@ -8,9 +8,10 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 
 /* ****Pages***** */
 const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
+const CreateOsPage = Loadable(lazy(() => import('../views/utilities/CreateOsPage')))
+const CreateBudget = Loadable(lazy(() => import('../views/utilities/CreateBudget')))
 const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')))
 const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
-const CreateOsPage = Loadable(lazy(() => import('../views/utilities/CreateOsPage')))
 const Shadow = Loadable(lazy(() => import('../views/utilities/Shadow')))
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
@@ -24,6 +25,8 @@ const Router = [
       { path: '/', element: <Navigate to="/auth/login" /> },
       { path: '/dashboard', exact: true, element: <Dashboard /> },
       { path: '/create-os/:idRequest?', exact: true, element: <CreateOsPage /> },
+      { path: '/create-budget', exact: true, element: <CreateBudget /> },
+
       { path: '/sample-page', exact: true, element: <SamplePage /> },
       { path: '/icons', exact: true, element: <Icons /> },
       { path: '/ui/shadow', exact: true, element: <Shadow /> },

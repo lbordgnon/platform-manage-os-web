@@ -11,6 +11,7 @@ export class RequestService {
     });
   }
 
+
   static async EditOS(title, description,idRequest) {
     return await axios.post(`/Request/editRequest?idRequest=${idRequest}`, {
       title,
@@ -36,5 +37,9 @@ export class RequestService {
 
   static async getRequestById(id) {
     return await axios.get(`/Request/getRequestById?id=${id}`);
+  }
+
+  static async getRequestByEngineer(email) {
+    return await axios.get(`/Request/getRequestByEngineer?email=${email}`);
   }
 }
