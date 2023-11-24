@@ -8,8 +8,10 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 
 /* ****Pages***** */
 const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
-const CreateOsPage = Loadable(lazy(() => import('../views/utilities/CreateOsPage')))
-const CreateBudget = Loadable(lazy(() => import('../views/utilities/CreateBudget')))
+const CreateOsPage = Loadable(lazy(() => import('../views/createOs/CreateOsPage')))
+const CreateBudget = Loadable(lazy(() => import('../views/createBudget/CreateBudget')))
+const Budgets = Loadable(lazy(() => import('../views/dashboardBudget/Budgets')))
+
 const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')))
 const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
 const Shadow = Loadable(lazy(() => import('../views/utilities/Shadow')))
@@ -25,7 +27,9 @@ const Router = [
       { path: '/', element: <Navigate to="/auth/login" /> },
       { path: '/dashboard', exact: true, element: <Dashboard /> },
       { path: '/create-os/:idRequest?', exact: true, element: <CreateOsPage /> },
-      { path: '/create-budget', exact: true, element: <CreateBudget /> },
+      { path: '/create-budget/:idBudget?', exact: true, element: <CreateBudget /> },
+      { path: '/budgets', exact: true, element: <Budgets /> },
+
 
       { path: '/sample-page', exact: true, element: <SamplePage /> },
       { path: '/icons', exact: true, element: <Icons /> },

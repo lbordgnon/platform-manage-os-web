@@ -19,6 +19,7 @@ export const CreateBudget = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [budgetValue, setBudgetValue] = useState();
+  const [id, setId] = useState('');
   const userLogin = Cookie.get('email');
   const expires = Cookie.get('expires');
   const userType = Cookie.get('userType');
@@ -32,7 +33,7 @@ export const CreateBudget = () => {
   const [requests, setRequests] = useState([]);
   const [request, setRequest] = useState();
   const history = useNavigate();
-  let { idRequest } = useParams();
+  let { idBudget } = useParams();
 
   useEffect(() => {
     if (!userLogin || now.toUTCString() >= expires) {
@@ -40,6 +41,9 @@ export const CreateBudget = () => {
     }
     getRequestByEngineer();
     setDisableButton(false);
+    if (idBudget) {
+      getBudgetById(idBudget);
+    }
   }, []);
 
   useEffect(() => {
@@ -76,11 +80,24 @@ export const CreateBudget = () => {
   };
 
   const createBudget = async () => {
-    await BudgetService.createBudget(title, description, budgetValue,userLogin,request.id)
+    await BudgetService.createBudget(title, description, budgetValue, userLogin, request.id)
       .then(function (response) {
         setAlertIsError(false);
         setOpenAlert(true);
-        history('/dashboard');
+        history('/budgets');
+      })
+      .catch(function (error) {
+        setAlertIsError(true);
+        setOpenAlert(true);
+      });
+  };
+
+  const editBudget = async () => {
+    await BudgetService.editBudget(idBudget, title, description, budgetValue)
+      .then(function (response) {
+        setAlertIsError(false);
+        setOpenAlert(true);
+        history('/budgets');
       })
       .catch(function (error) {
         setAlertIsError(true);
@@ -92,6 +109,17 @@ export const CreateBudget = () => {
     await RequestService.getRequestByEngineer(userLogin)
       .then(function (response) {
         setRequests(response.data);
+      })
+      .catch(function (error) {});
+  };
+
+  const getBudgetById = async (id) => {
+    await BudgetService.getBudgetById(id)
+      .then(function (response) {
+        setTitle(response.data.title);
+        setDescription(response.data.description);
+        setBudgetValue(response.data.value);
+        setId(response.data.idRequest);
       })
       .catch(function (error) {});
   };
@@ -116,27 +144,31 @@ export const CreateBudget = () => {
             <Grid container spacing={3}>
               <Grid item sm={12}>
                 <Stack spacing={2}>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight={600}
-                    component="label"
-                    htmlFor="name"
-                    mb="5px"
-                  >
-                    Ordem De Serviço
-                  </Typography>
-                  <Autocomplete
-                    id="grouped-demo"
-                    value={request}
-                    onChange={(event, newValue) => {
-                      setRequest(newValue);
-                    }}
-                    options={requests.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
-                    groupBy={(option) => option.firstLetter}
-                    getOptionLabel={(option) => option.title}
-                    sx={{ width: 1050 }}
-                    renderInput={(params) => <TextField {...params} label="" />}
-                  />
+                  {!idBudget && (
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight={600}
+                      component="label"
+                      htmlFor="name"
+                      mb="5px"
+                    >
+                      Ordem De Serviço
+                    </Typography>
+                  )}
+                  {!idBudget && (
+                    <Autocomplete
+                      id="grouped-demo"
+                      value={request}
+                      onChange={(event, newValue) => {
+                        setRequest(newValue);
+                      }}
+                      options={requests}
+                      groupBy={(option) => option.firstLetter}
+                      getOptionLabel={(option) => option.title}
+                      sx={{ width: 1050 }}
+                      renderInput={(params) => <TextField {...params} label="" />}
+                    />
+                  )}
                   <Typography
                     variant="subtitle1"
                     fontWeight={600}
@@ -209,7 +241,7 @@ export const CreateBudget = () => {
                     size="large"
                     fullWidth
                     component={Link}
-                    onClick={createBudget}
+                    onClick={idBudget ? editBudget : createBudget}
                     disabled={disableButton}
                   >
                     Cadastrar

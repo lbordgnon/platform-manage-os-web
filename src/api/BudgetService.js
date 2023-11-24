@@ -13,5 +13,22 @@ export class BudgetService {
       idRequest
     });
   }
+
+  static async editBudget(id,title, description, value) {
+    return await axios.post('/Budget/EditBudget', {
+      id,
+      title,
+      description,
+      value
+    });
+  }
+
+  static async getAllBudgets(email) {
+    return await axios.get(`Budget?emailEnginer=${email}`);
+  }
+
+  static async getBudgetById(id) {
+    return await axios.get(`/Budget/getBudgetById?id=${id}`);
+  }
   
 }

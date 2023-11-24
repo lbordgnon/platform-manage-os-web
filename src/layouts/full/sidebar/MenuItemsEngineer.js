@@ -1,8 +1,11 @@
 import {
   IconLayoutDashboard,
   IconFilePencil,
-  IconFileDollar
+  IconFileDollar,
+  IconStack2
 } from '@tabler/icons';
+
+
 
 import { uniqueId } from 'lodash';
 
@@ -29,6 +32,12 @@ const MenuItemsEngineer = [
     title: 'Cadastrar Oçamento',
     icon: IconFileDollar,
     href: '/create-budget',
+  },
+  {
+    id: uniqueId(),
+    title: 'Meus orçamentos',
+    icon: IconStack2,
+    href: '/budgets',
   },
 ];
 
