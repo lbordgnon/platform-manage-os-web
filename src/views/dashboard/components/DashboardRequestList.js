@@ -39,6 +39,10 @@ export const DashboardRequestList = ({ requests, engineer }) => {
       .catch(function (error) {});
   };
 
+  const requestDetails = async (id) => {
+    history(`/request-details/${id}`);
+  };
+
   return (
     <DashboardCard title="Lista de ordens de Serviço">
       <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
@@ -82,7 +86,7 @@ export const DashboardRequestList = ({ requests, engineer }) => {
           </TableHead>
           <TableBody>
             {requests.map((request) => (
-              <TableRow key={request.id}>
+              <TableRow key={request.id} onClick={() => requestDetails(request.id)} sx={{ cursor: 'pointer' }}>
                 <TableCell>
                   <Typography
                     sx={{
