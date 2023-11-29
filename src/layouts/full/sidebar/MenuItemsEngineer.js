@@ -2,7 +2,8 @@ import {
   IconLayoutDashboard,
   IconFilePencil,
   IconFileDollar,
-  IconStack2
+  IconStack2,
+  IconChartBar,
 } from '@tabler/icons';
 
 
@@ -38,6 +39,12 @@ const MenuItemsEngineer = [
     title: 'Meus orçamentos',
     icon: IconStack2,
     href: '/budgets',
+  },
+  {
+    id: uniqueId(),
+    title: 'Relatórios',
+    icon: IconChartBar,
+    href: '/reports',
   },
 ];
 
