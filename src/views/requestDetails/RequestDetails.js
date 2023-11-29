@@ -6,10 +6,12 @@ import DashboardCard from '../../components/shared/DashboardCard';
 import { RequestService } from '../../api/RequestService';
 import { ClienteService } from '../../api/ClienteService';
 import { EngineerService } from '../../api/EngineerService';
+import { BudgetService } from '../../api/BudgetService';
 import { useNavigate, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Cookie from 'js.cookie';
 import { statusRequest } from '../../constants/Constants';
+import DashboardBudgetList from '../../views/dashboardBudget/components/DashboardBudgetList';
 
 export const RequestDetails = () => {
   const userLogin = Cookie.get('email');
@@ -19,6 +21,7 @@ export const RequestDetails = () => {
   const [requestResponse, setRequestResponse] = useState({});
   const [clientResponse, setClientResponse] = useState('');
   const [engineerResponse, setEngineerResponse] = useState('');
+  const [budgetsList, setBudgetsList] = useState([]);
 
   const history = useNavigate();
   let { idRequest } = useParams();
@@ -36,6 +39,7 @@ export const RequestDetails = () => {
         setRequestResponse(response.data);
         getClientById(response.data.idClient);
         getEngineerById(response.data.idEngineer);
+        getBudgetByRequestId(response.data.id);
       })
       .catch(function (error) {});
   };
@@ -49,9 +53,20 @@ export const RequestDetails = () => {
   };
 
   const getEngineerById = async (id) => {
-    await EngineerService.getEngineerById(id)
+    if (id) {
+      await EngineerService.getEngineerById(id)
+        .then(function (response) {
+          setEngineerResponse(response.data);
+        })
+        .catch(function (error) {});
+    }
+    setEngineerResponse("N/A")
+  };
+
+  const getBudgetByRequestId = async (id) => {
+    await BudgetService.getBudgetByRequestId(id)
       .then(function (response) {
-        setEngineerResponse(response.data);
+        setBudgetsList(response.data);
       })
       .catch(function (error) {});
   };
@@ -148,90 +163,7 @@ export const RequestDetails = () => {
       </Grid>
       <Grid container spacing={3}>
         <Grid item sm={12}>
-          <DashboardCard title="Orçamentos">
-            <Grid container spacing={3}>
-              <Grid item sm={8}>
-                <Stack spacing={2}>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight={600}
-                    component="label"
-                    htmlFor="name"
-                    mb="5px"
-                  >
-                    Nº
-                  </Typography>
-                  <Typography variant="body1" component="label" htmlFor="name" mb="5px">
-                    {requestResponse.identificationNumber}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight={600}
-                    component="label"
-                    htmlFor="name"
-                    mb="5px"
-                  >
-                    Cliente
-                  </Typography>
-                  <Typography variant="body1" component="label" htmlFor="name" mb="5px">
-                    {clientResponse}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight={600}
-                    component="label"
-                    htmlFor="name"
-                    mb="5px"
-                  >
-                    Título
-                  </Typography>
-                  <Typography variant="body1" component="label" htmlFor="name" mb="5px">
-                    {requestResponse.title}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight={600}
-                    component="label"
-                    htmlFor="name"
-                    mb="5px"
-                  >
-                    Descrição
-                  </Typography>
-                  <Typography variant="body1" component="label" htmlFor="name" mb="5px">
-                    {requestResponse.description}
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid item sm={4}>
-                <Stack spacing={2}>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight={600}
-                    component="label"
-                    htmlFor="name"
-                    mb="5px"
-                  >
-                    Status
-                  </Typography>
-                  <Typography variant="body1" component="label" htmlFor="name" mb="5px">
-                    {statusRequest[requestResponse.status]}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    fontWeight={600}
-                    component="label"
-                    htmlFor="name"
-                    mb="5px"
-                  >
-                    Engenheiro Responsável
-                  </Typography>
-                  <Typography variant="body1" component="label" htmlFor="name" mb="5px">
-                    {engineerResponse}
-                  </Typography>
-                </Stack>
-              </Grid>
-            </Grid>
-          </DashboardCard>
+          <DashboardBudgetList budgets={budgetsList}  engineer={userType === 1} />
         </Grid>
       </Grid>
     </PageContainer>
