@@ -12,4 +12,8 @@ export class ClienteService {
       password,
     });
   }
+
+  static async getClientName(id) {
+    return await axios.get(`/Clients/getClientName?id=${id}`);
+  }
 }

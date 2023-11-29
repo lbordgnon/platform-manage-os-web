@@ -28,7 +28,7 @@ export const DashboardBudgetList = ({ budgets }) => {
   };
 
   return (
-    <DashboardCard title="Lista de ordens de Serviço">
+    <DashboardCard title="Orçamentos">
       <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
         <Table
           aria-label="simple table"
