@@ -10,17 +10,19 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import Cookie from 'js.cookie';
+import { useNavigate } from 'react-router-dom';
 
 import { IconUser } from '@tabler/icons';
 
 const Profile = () => {
-  const [anchorEl2, setAnchorEl2] = useState(null);
-  const handleClick2 = (event) => {
-    setAnchorEl2(event.currentTarget);
+  const email = Cookie.get('email');
+  const history = useNavigate();
+
+  const handleClick = (event) => {
+    history('/dashboard');
   };
-  const handleClose2 = () => {
-    setAnchorEl2(null);
-  };
+
 
   return (
     <Box>
@@ -37,11 +39,8 @@ const Profile = () => {
         }}
         onClick={handleClick2}
       >
-        <Avatar>N</Avatar>
+        <Avatar>{email.substr(0,1)}</Avatar>
       </IconButton>
-      {/* ------------------------------------------- */}
-      {/* Message Dropdown */}
-      {/* ------------------------------------------- */}
       <Menu
         id="msgs-menu"
         anchorEl={anchorEl2}
