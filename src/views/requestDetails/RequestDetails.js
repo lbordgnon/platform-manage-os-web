@@ -59,8 +59,9 @@ export const RequestDetails = () => {
           setEngineerResponse(response.data);
         })
         .catch(function (error) {});
+    } else {
+      setEngineerResponse('N/A');
     }
-    setEngineerResponse("N/A")
   };
 
   const getBudgetByRequestId = async (id) => {
@@ -163,7 +164,7 @@ export const RequestDetails = () => {
       </Grid>
       <Grid container spacing={3}>
         <Grid item sm={12}>
-          <DashboardBudgetList budgets={budgetsList}  engineer={userType === 1} />
+          <DashboardBudgetList budgets={budgetsList} engineer={userType === 1} />
         </Grid>
       </Grid>
     </PageContainer>

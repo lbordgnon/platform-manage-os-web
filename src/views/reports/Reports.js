@@ -23,6 +23,10 @@ export const Reports = () => {
   const [requestList, setRequestList] = useState([]);
   const [assigned, setAssigned] = useState(0);
   const [notAssigned, setNotAssigned] = useState(0);
+  const [analysis, setAnalysis] = useState(0);
+  const [inProgress, setInProgress] = useState(0);
+  const [completed, setCompleted] = useState(0);
+  const [canceled, setCanceled] = useState(0);
 
   const history = useNavigate();
   let { idRequest } = useParams();
@@ -32,7 +36,7 @@ export const Reports = () => {
       history('/');
     }
     getRequestListEngineer();
-  }, []);
+  });
 
   const getRequestListEngineer = async () => {
     await RequestService.getRequestListEngineer().then(function (response) {
@@ -40,6 +44,10 @@ export const Reports = () => {
       if (requestList) {
         setAssigned(requestList.filter((request) => request.idEngineer == null).length);
         setNotAssigned(requestList.filter((request) => request.idEngineer != null).length);
+        setAnalysis(requestList.filter((request) => request.status === 1).length);
+        setInProgress(requestList.filter((request) => request.status === 2).length);
+        setCompleted(requestList.filter((request) => request.status === 3).length);
+        setCanceled(requestList.filter((request) => request.status === 4).length);
       }
     });
   };
@@ -49,26 +57,47 @@ export const Reports = () => {
       <Grid container spacing={3}>
         <Grid item sm={12}>
           <DashboardCard title="Relatórios">
-            <PieChart
-              series={[
-                {
-                  data: [
-                    { id: 0, value: 10, label: 'Análise' },
-                    { id: 1, value: 15, label: 'Iniciada' },
-                    { id: 2, value: 20, label: 'Concluída' },
-                    { id: 3, value: 20, label: 'Cancelada' },
-                  ],
-                },
-              ]}
-              width={400}
-              height={200}
-            />
+            <Typography
+              variant="subtitle1"
+              fontWeight={600}
+              component="label"
+              htmlFor="name"
+              mb="5px"
+            >
+              Relatório de chamados com Responsável Atribuído
+            </Typography>
             <BarChart
               xAxis={[
                 { scaleType: 'band', data: ['Total de chamados', 'Atribuídos', 'N/Atribuídos'] },
               ]}
               series={[{ data: [requestList.length, notAssigned, assigned] }]}
               width={500}
+              height={300}
+            />
+            <Typography
+              variant="subtitle1"
+              fontWeight={600}
+              component="label"
+              htmlFor="name"
+              mb="5px"
+            >
+              Relatório de status dos chamados
+            </Typography>
+            <BarChart
+              xAxis={[
+                {
+                  scaleType: 'band',
+                  data: [
+                    'Total de chamados',
+                    'Em Análise',
+                    'Iniciados',
+                    'Concluídos',
+                    'Cancelados',
+                  ],
+                },
+              ]}
+              series={[{ data: [requestList.length, analysis, inProgress, completed, canceled] }]}
+              width={800}
               height={300}
             />
           </DashboardCard>

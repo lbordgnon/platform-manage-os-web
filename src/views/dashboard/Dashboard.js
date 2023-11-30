@@ -43,7 +43,7 @@ export const Dashboard = () => {
       <Box>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={12}>
-            <DashboardRequestList requests={requestList} engineer={userType === 1} />
+            <DashboardRequestList requests={requestList.sort()} engineer={userType === 1} />
           </Grid>
         </Grid>
       </Box>

@@ -70,29 +70,19 @@ export const DashboardRequestList = ({ requests, engineer }) => {
                   status
                 </Typography>
               </TableCell>
-              <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  Responsável
-                </Typography>
-              </TableCell>
-              {engineer && (
-                <TableCell>
-                  <Typography variant="subtitle2" fontWeight={600}>
-                    Cliente
-                  </Typography>
-                </TableCell>
-              )}
             </TableRow>
           </TableHead>
           <TableBody>
             {requests.map((request) => (
-              <TableRow key={request.id} onClick={() => requestDetails(request.id)} sx={{ cursor: 'pointer' }}>
+              <TableRow key={request.id}>
                 <TableCell>
                   <Typography
                     sx={{
                       fontSize: '15px',
                       fontWeight: '500',
+                      cursor: 'pointer',
                     }}
+                    onClick={() => requestDetails(request.id)}
                   >
                     {request.identificationNumber}
                   </Typography>
@@ -102,7 +92,9 @@ export const DashboardRequestList = ({ requests, engineer }) => {
                     sx={{
                       fontSize: '15px',
                       fontWeight: '500',
+                      cursor: 'pointer',
                     }}
+                    onClick={() => requestDetails(request.id)}
                   >
                     {request.title}
                   </Typography>
@@ -112,33 +104,14 @@ export const DashboardRequestList = ({ requests, engineer }) => {
                     sx={{
                       fontSize: '15px',
                       fontWeight: '500',
+                      cursor: 'pointer',
                     }}
+                    onClick={() => requestDetails(request.id)}
                   >
                     {statusRequest[request.status]}
                   </Typography>
                 </TableCell>
-                <TableCell>
-                  <Typography
-                    sx={{
-                      fontSize: '15px',
-                      fontWeight: '500',
-                    }}
-                  >
-                    {request.idEngineer}
-                  </Typography>
-                </TableCell>
-                {engineer && (
-                  <TableCell>
-                    <Typography
-                      sx={{
-                        fontSize: '15px',
-                        fontWeight: '500',
-                      }}
-                    >
-                      {request.idClient}
-                    </Typography>
-                  </TableCell>
-                )}
+
                 <TableCell>
                   <Typography
                     sx={{
