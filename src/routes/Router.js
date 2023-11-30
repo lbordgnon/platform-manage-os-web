@@ -12,6 +12,8 @@ const CreateOsPage = Loadable(lazy(() => import('../views/createOs/CreateOsPage'
 const CreateBudget = Loadable(lazy(() => import('../views/createBudget/CreateBudget')))
 const Budgets = Loadable(lazy(() => import('../views/dashboardBudget/Budgets')))
 const Request = Loadable(lazy(() => import('../views/requestDetails/RequestDetails')))
+const Reports = Loadable(lazy(() => import('../views/reports/Reports')))
+
 
 const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')))
 const Icons = Loadable(lazy(() => import('../views/icons/Icons')))
@@ -31,6 +33,7 @@ const Router = [
       { path: '/request-details/:idRequest', exact: true, element: <Request /> },
       { path: '/create-budget/:idBudget?', exact: true, element: <CreateBudget /> },
       { path: '/budgets', exact: true, element: <Budgets /> },
+      { path: '/reports', exact: true, element: <Reports /> },
 
 
       { path: '/sample-page', exact: true, element: <SamplePage /> },
