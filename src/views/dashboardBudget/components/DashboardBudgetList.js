@@ -27,6 +27,7 @@ export const DashboardBudgetList = ({ budgets }) => {
     history(`/create-budget/${id}`);
   };
 
+  
   return (
     <DashboardCard title="Orçamentos">
       <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
@@ -39,11 +40,6 @@ export const DashboardBudgetList = ({ budgets }) => {
         >
           <TableHead>
             <TableRow>
-              <TableCell>
-                <Typography variant="subtitle2" fontWeight={600}>
-                  idRequest
-                </Typography>
-              </TableCell>
               <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
                   Título
@@ -64,16 +60,6 @@ export const DashboardBudgetList = ({ budgets }) => {
           <TableBody>
             {budgets.map((budget) => (
               <TableRow key={budget.id}>
-                <TableCell>
-                  <Typography
-                    sx={{
-                      fontSize: '15px',
-                      fontWeight: '500',
-                    }}
-                  >
-                    {budget.idRequest}
-                  </Typography>
-                </TableCell>
                 <TableCell>
                   <Typography
                     sx={{

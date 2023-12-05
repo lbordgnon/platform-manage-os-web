@@ -18,11 +18,19 @@ import { IconUser } from '@tabler/icons';
 const Profile = () => {
   const email = Cookie.get('email');
   const history = useNavigate();
+  const [anchorEl2, setAnchorEl2] = useState(null);
 
-  const handleClick = (event) => {
-    history('/dashboard');
+  const handleClick2 = (event) => {
+    setAnchorEl2(event.currentTarget);
   };
 
+  const handleClose2 = () => {
+    setAnchorEl2(null);
+  };
+
+  const handleClick = () => {
+    history('/edit-user');
+  };
 
   return (
     <Box>
@@ -39,7 +47,7 @@ const Profile = () => {
         }}
         onClick={handleClick2}
       >
-        <Avatar>{email.substr(0,1)}</Avatar>
+        <Avatar>{email ? email.substr(0, 1) : ' '}</Avatar>
       </IconButton>
       <Menu
         id="msgs-menu"
@@ -59,7 +67,7 @@ const Profile = () => {
           <ListItemIcon>
             <IconUser width={20} />
           </ListItemIcon>
-          <ListItemText>Meu Perfil</ListItemText>
+          <ListItemText onClick={handleClick}>Meu Perfil</ListItemText>
         </MenuItem>
         <Box mt={1} py={1} px={2}>
           <Button to="/auth/login" variant="outlined" color="primary" component={Link} fullWidth>
