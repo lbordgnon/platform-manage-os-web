@@ -12,22 +12,27 @@ import {
 import DashboardCard from '../../../components/shared/DashboardCard';
 import IconButton from '@mui/material/IconButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
 import { useNavigate, Link } from 'react-router-dom';
-import { statusRequest } from '../../../constants/Constants';
-import { RequestService } from '../../../api/RequestService';
 import Cookie from 'js.cookie';
+import { BudgetService } from '../../../api/BudgetService';
 
 export const DashboardBudgetList = ({ budgets }) => {
   const history = useNavigate();
-
+  const userLogin = Cookie.get('email');
+  const expires = Cookie.get('expires');
+  const userType = Cookie.get('userType');
 
   const editBudget = async (id) => {
     history(`/create-budget/${id}`);
   };
 
-  
+  const approveBudget = async (id) => {
+    await BudgetService.approveBudget(id)
+      .then(function (response) {})
+      .catch(function (error) {});
+  };
+
   return (
     <DashboardCard title="Orçamentos">
       <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
@@ -97,9 +102,16 @@ export const DashboardBudgetList = ({ budgets }) => {
                       fontWeight: '500',
                     }}
                   >
-                    <IconButton aria-label="edit" onClick={() => editBudget(budget.id)}>
-                      <EditNoteIcon />
-                    </IconButton>
+                    {userType === 1 && (
+                      <IconButton aria-label="edit" onClick={() => editBudget(budget.id)}>
+                        <EditNoteIcon />
+                      </IconButton>
+                    )}
+                    {userType === 2 && (
+                      <IconButton aria-label="edit" onClick={() => approveBudget(budget.id)}>
+                        <CheckIcon />
+                      </IconButton>
+                    )}
                   </Typography>
                 </TableCell>
               </TableRow>

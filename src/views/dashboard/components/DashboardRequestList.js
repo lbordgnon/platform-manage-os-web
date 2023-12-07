@@ -7,8 +7,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Chip,
+
 } from '@mui/material';
+import { useState } from 'react';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import IconButton from '@mui/material/IconButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -19,9 +20,11 @@ import { statusRequest } from '../../../constants/Constants';
 import { RequestService } from '../../../api/RequestService';
 import Cookie from 'js.cookie';
 
+
 export const DashboardRequestList = ({ requests, engineer }) => {
   const history = useNavigate();
   const userLogin = Cookie.get('email');
+
 
   const editRequest = async (id) => {
     history(`/create-os/${id}`);
@@ -35,7 +38,9 @@ export const DashboardRequestList = ({ requests, engineer }) => {
 
   const AddEngineer = async (id) => {
     await RequestService.AddEngineer(id, userLogin)
-      .then(function (response) {})
+      .then(function (response) {
+        requests = response
+      })
       .catch(function (error) {});
   };
 
@@ -43,9 +48,12 @@ export const DashboardRequestList = ({ requests, engineer }) => {
     history(`/request-details/${id}`);
   };
 
+
+
   return (
     <DashboardCard title="Lista de ordens de Serviço">
       <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
+
         <Table
           aria-label="simple table"
           sx={{
