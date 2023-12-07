@@ -34,6 +34,7 @@ export const CreateBudget = () => {
   const [request, setRequest] = useState();
   const history = useNavigate();
   let { idBudget } = useParams();
+  const [requestResponse, setRequestResponse] = useState({});
 
   useEffect(() => {
     if (!userLogin || now.toUTCString() >= expires) {
@@ -120,6 +121,7 @@ export const CreateBudget = () => {
         setDescription(response.data.description);
         setBudgetValue(response.data.value);
         setId(response.data.idRequest);
+        getRequestById(response.data.idRequest)
       })
       .catch(function (error) {});
   };
@@ -134,6 +136,14 @@ export const CreateBudget = () => {
     }
     var numsStr = value.replace(/[^0-9]/g, '');
     return setBudgetValue(parseInt(numsStr));
+  };
+
+  const getRequestById = async (idRequest) => {
+    await RequestService.getRequestById(idRequest)
+      .then(function (response) {
+        setRequestResponse(response.data);
+      })
+      .catch(function (error) {});
   };
 
   return (
@@ -168,6 +178,28 @@ export const CreateBudget = () => {
                       sx={{ width: 1050 }}
                       renderInput={(params) => <TextField {...params} label="" />}
                     />
+                  )}
+                  {idBudget && (
+                    <div>
+                      <Typography
+                        variant="subtitle1"
+                        fontWeight={600}
+                        component="label"
+                        htmlFor="name"
+                        mb="5px"
+                      >
+                        Numero da ordem de serviço
+                      </Typography>
+                      <CustomTextField
+                        error={showErrorTitle}
+                        helperText={showErrorTitle ? 'Campo de preenchimento obrigatório' : ''}
+                        id="title"
+                        variant="outlined"
+                        fullWidth
+                        value={requestResponse.identificationNumber}
+                        disabled
+                      />
+                    </div>
                   )}
                   <Typography
                     variant="subtitle1"
