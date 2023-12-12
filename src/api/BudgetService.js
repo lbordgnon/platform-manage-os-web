@@ -34,5 +34,9 @@ export class BudgetService {
   static async getBudgetByRequestId(id) {
     return await axios.get(`/Budget/getBudgetByRequestId?requestId=${id}`);
   }
-  
+
+  static async approveBudget(id) {
+    return await axios.post(`/Budget/ApprovedBudget?idBudget=${id}`);
+  }
+
 }

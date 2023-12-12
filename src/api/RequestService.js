@@ -35,6 +35,10 @@ export class RequestService {
     return await axios.get(`/Request/getRequestByClient?email=${email}`);
   }
 
+  static async getRequestByClient(query,email) {
+    return await axios.get(`/Request/getRequestByClient?query=${query}&email=${email}`);
+  }
+
   static async getRequestById(id) {
     return await axios.get(`/Request/getRequestById?id=${id}`);
   }
