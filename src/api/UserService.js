@@ -16,4 +16,9 @@ export class UserService {
     });
   }
 
+  static async getUserName(idUser) {
+    return await axios.get(`/User/getUserName?idUser=${idUser}`);
+
+  }
+  
 }
