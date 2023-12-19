@@ -7,11 +7,13 @@ import { RequestService } from '../../api/RequestService';
 import { ClienteService } from '../../api/ClienteService';
 import { EngineerService } from '../../api/EngineerService';
 import { BudgetService } from '../../api/BudgetService';
+import { CommentRequestService } from '../../api/CommentRequestService';
 import { useNavigate, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Cookie from 'js.cookie';
 import { statusRequest } from '../../constants/Constants';
 import DashboardBudgetList from '../../views/dashboardBudget/components/DashboardBudgetList';
+import DashboardCommentRequestList from '../../views/commentRequest/components/DashboardCommentRequestList';
 
 export const RequestDetails = () => {
   const userLogin = Cookie.get('email');
@@ -22,7 +24,9 @@ export const RequestDetails = () => {
   const [clientResponse, setClientResponse] = useState('');
   const [engineerResponse, setEngineerResponse] = useState('');
   const [budgetsList, setBudgetsList] = useState([]);
+  const [commentRequestsList, setCommentRequestsList] = useState([]);
 
+  
   const history = useNavigate();
   let { idRequest } = useParams();
 
@@ -40,6 +44,7 @@ export const RequestDetails = () => {
         getClientById(response.data.idClient);
         getEngineerById(response.data.idEngineer);
         getBudgetByRequestId(response.data.id);
+        getAllCommentRequestList(response.data.id);
       })
       .catch(function (error) {});
   };
@@ -68,6 +73,14 @@ export const RequestDetails = () => {
     await BudgetService.getBudgetByRequestId(id)
       .then(function (response) {
         setBudgetsList(response.data);
+      })
+      .catch(function (error) {});
+  };
+
+  const getAllCommentRequestList = async (id) => {
+    await CommentRequestService.getAllCommentRequestList(id)
+      .then(function (response) {
+        setCommentRequestsList(response.data);
       })
       .catch(function (error) {});
   };
@@ -165,6 +178,11 @@ export const RequestDetails = () => {
       <Grid container spacing={3}>
         <Grid item sm={12}>
           <DashboardBudgetList budgets={budgetsList} engineer={userType === 1} />
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item sm={12}>
+          <DashboardCommentRequestList commentRequests={commentRequestsList} requestId={idRequest}/>
         </Grid>
       </Grid>
     </PageContainer>
