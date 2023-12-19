@@ -9,7 +9,7 @@ export class CommentRequestService {
   }
 
   static async CreateCommentRequest(userLogin, coment,idRequest) {
-    return await axios.post('/Request', {
+    return await axios.post('/CommentRequest', {
       userLogin,
       coment,
       idRequest,
