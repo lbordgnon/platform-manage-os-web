@@ -11,10 +11,13 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate, Link } from 'react-router-dom';
 import { UserService } from '../../../api/UserService';
-import MuiAlert from '@mui/material/Alert';
+import { ClienteService } from '../../../api/ClienteService';
+import Alert from '@mui/material/Alert';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import Snackbar from '@mui/material/Snackbar';
 import Cookie from 'js.cookie';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 export const AuthLogin = ({ title, subtitle, subtext }) => {
   const [email, setEmail] = useState('');
@@ -30,10 +33,36 @@ export const AuthLogin = ({ title, subtitle, subtext }) => {
         var time = now.getTime();
         var expireTime = time + 1000 * 36000;
         now.setTime(expireTime);
-        Cookie.set('email', response.data.login)
-        Cookie.set('userType', response.data.userType)
-        Cookie.set('expires', now.toUTCString())
+        Cookie.set('email', response.data.login);
+        Cookie.set('userType', response.data.userType);
+        Cookie.set('expires', now.toUTCString());
         history('/dashboard');
+      })
+      .catch(function (error) {
+        setOpenAlert(true);
+      });
+  };
+
+  const responseMessage = (response) => {
+    var now = new Date();
+    var time = now.getTime();
+    var expireTime = time + 1000 * 36000;
+    now.setTime(expireTime);
+    const decoded = jwtDecode(response.credential);
+    Cookie.set('email', decoded.email);
+    Cookie.set('expires', now.toUTCString());
+    Cookie.set('userType', 2);
+    signupGoogleLogin(decoded.email, decoded.email, '***********', '**********');
+    history('/dashboard');
+  };
+  const errorMessage = (error) => {
+    setOpenAlert(true);
+  };
+
+  const signupGoogleLogin = async (name, email, phone, password) => {
+    await ClienteService.signupClient(name, email, phone, password)
+      .then(function (response) {
+        setOpenAlert(true);
       })
       .catch(function (error) {
         setOpenAlert(true);
@@ -108,6 +137,7 @@ export const AuthLogin = ({ title, subtitle, subtext }) => {
             }
           />
         </Box>
+
         <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
           <Typography
             component={Link}
@@ -134,11 +164,20 @@ export const AuthLogin = ({ title, subtitle, subtext }) => {
           Entrar
         </Button>
       </Box>
+      <Stack direction="row" justifyContent="center" spacing={1} mt={3}>
+        <Typography color="textSecondary" variant="h6" fontWeight="400">
+          ou
+        </Typography>
+      </Stack>
+      <Stack direction="row" justifyContent="center" spacing={1} mt={3}>
+        <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+      </Stack>
+
       <Box>
         <Snackbar open={openAlert} autoHideDuration={8000} onClose={handleClose}>
-          <MuiAlert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          <Alert onClose={handleClose} variant="filled" severity="error" sx={{ width: '100%' }}>
             {'Não foi possivel realizar o login, revise seus dados e tente novamente'}
-          </MuiAlert>
+          </Alert>
         </Snackbar>
       </Box>
       {subtitle}
