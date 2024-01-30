@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Typography,
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-
-} from '@mui/material';
+import { Typography, Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { useState } from 'react';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import IconButton from '@mui/material/IconButton';
@@ -20,11 +11,9 @@ import { statusRequest } from '../../../constants/Constants';
 import { RequestService } from '../../../api/RequestService';
 import Cookie from 'js.cookie';
 
-
 export const DashboardRequestList = ({ requests, engineer }) => {
   const history = useNavigate();
   const userLogin = Cookie.get('email');
-
 
   const editRequest = async (id) => {
     history(`/create-os/${id}`);
@@ -39,7 +28,7 @@ export const DashboardRequestList = ({ requests, engineer }) => {
   const AddEngineer = async (id) => {
     await RequestService.AddEngineer(id, userLogin)
       .then(function (response) {
-        requests = response
+        requests = response;
       })
       .catch(function (error) {});
   };
@@ -48,12 +37,9 @@ export const DashboardRequestList = ({ requests, engineer }) => {
     history(`/request-details/${id}`);
   };
 
-
-
   return (
     <DashboardCard title="Lista de ordens de Serviço">
       <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
-
         <Table
           aria-label="simple table"
           sx={{
@@ -119,27 +105,28 @@ export const DashboardRequestList = ({ requests, engineer }) => {
                     {statusRequest[request.status]}
                   </Typography>
                 </TableCell>
-
-                <TableCell>
-                  <Typography
-                    sx={{
-                      fontSize: '15px',
-                      fontWeight: '500',
-                    }}
-                  >
-                    <IconButton aria-label="delete" onClick={() => editRequest(request.id)}>
-                      <EditNoteIcon />
-                    </IconButton>
-                    <IconButton aria-label="Close" onClick={() => cancelRequest(request.id)}>
-                      <CloseIcon />
-                    </IconButton>
-                    {engineer && (
-                      <IconButton aria-label="Personal" onClick={() => AddEngineer(request.id)}>
-                        <PersonAddIcon />
+                {request.status <= 2 && (
+                  <TableCell>
+                    <Typography
+                      sx={{
+                        fontSize: '15px',
+                        fontWeight: '500',
+                      }}
+                    >
+                      <IconButton aria-label="delete" onClick={() => editRequest(request.id)}>
+                        <EditNoteIcon />
                       </IconButton>
-                    )}
-                  </Typography>
-                </TableCell>
+                      <IconButton aria-label="Close" onClick={() => cancelRequest(request.id)}>
+                        <CloseIcon />
+                      </IconButton>
+                      {engineer && (
+                        <IconButton aria-label="Personal" onClick={() => AddEngineer(request.id)}>
+                          <PersonAddIcon />
+                        </IconButton>
+                      )}
+                    </Typography>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

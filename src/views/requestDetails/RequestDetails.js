@@ -26,7 +26,6 @@ export const RequestDetails = () => {
   const [budgetsList, setBudgetsList] = useState([]);
   const [commentRequestsList, setCommentRequestsList] = useState([]);
 
-  
   const history = useNavigate();
   let { idRequest } = useParams();
 
@@ -82,6 +81,12 @@ export const RequestDetails = () => {
       .then(function (response) {
         setCommentRequestsList(response.data);
       })
+      .catch(function (error) {});
+  };
+
+  const conclusionOS = async (id) => {
+    await RequestService.conclusionOS(id)
+      .then(function (response) {})
       .catch(function (error) {});
   };
 
@@ -182,9 +187,28 @@ export const RequestDetails = () => {
       </Grid>
       <Grid container spacing={3}>
         <Grid item sm={12}>
-          <DashboardCommentRequestList commentRequests={commentRequestsList} requestId={idRequest}/>
+          <DashboardCommentRequestList
+            commentRequests={commentRequestsList}
+            requestId={idRequest}
+          />
         </Grid>
       </Grid>
+      {requestResponse.status <= 2 && (
+        <Grid container spacing={6}>
+          <Grid item sm={12}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={() => conclusionOS(idRequest)}
+              type="submit"
+            >
+              Concluir
+            </Button>
+          </Grid>
+        </Grid>
+      )}
     </PageContainer>
   );
 };
