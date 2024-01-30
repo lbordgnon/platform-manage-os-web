@@ -8,6 +8,7 @@ export class UserService {
     return await axios.post(`/User/Login?login=${email}&password=${password}`);
   }
 
+
   static async editUser(oldLogin, newLogin,password) {
     return await axios.post(`/User/editUser`, {
       oldLogin,
