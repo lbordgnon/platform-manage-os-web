@@ -193,20 +193,22 @@ export const RequestDetails = () => {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={6}>
-        <Grid item sm={12}>
-          <Button
-            color="primary"
-            variant="contained"
-            size="large"
-            fullWidth
-            onClick={conclusionOS}
-            type="submit"
-          >
-            Concluir
-          </Button>
+      {requestResponse.status <= 2 && (
+        <Grid container spacing={6}>
+          <Grid item sm={12}>
+            <Button
+              color="primary"
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={() => conclusionOS(idRequest)}
+              type="submit"
+            >
+              Concluir
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </PageContainer>
   );
 };
