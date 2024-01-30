@@ -23,6 +23,10 @@ export class RequestService {
     return await axios.post(`/Request/editStatusRequest?idRequest=${idRequest}&status=4`);
   }
 
+  static async conclusionOS(idRequest) {
+    return await axios.post(`/Request/editStatusRequest?idRequest=${idRequest}&status=3`);
+  }
+
   static async AddEngineer(idRequest,email) {
     return await axios.post(`/Request/AddEngineer?idRequest=${idRequest}&emailEgineer=${email}`);
   }
