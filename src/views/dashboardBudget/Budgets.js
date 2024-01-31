@@ -13,10 +13,12 @@ export const Budgets = () => {
   const expires = Cookie.get('expires');
   const userType = Cookie.get('userType');
   var now = new Date();
+  var expiresDate = new Date(expires);
+
   const history = useNavigate();
 
   useEffect(() => {
-    if (!userLogin || now.toUTCString() >= expires || userType !== 1) {
+    if (!userLogin || now.valueOf() >= expiresDate.valueOf() || userType !== 1) {
       history('/');
     } else{
       getAllBudgets();

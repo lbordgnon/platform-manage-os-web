@@ -20,6 +20,8 @@ export const Reports = () => {
   const expires = Cookie.get('expires');
   const userType = Cookie.get('userType');
   var now = new Date();
+  var expiresDate = new Date(expires);
+
   const [requestList, setRequestList] = useState([]);
   const [assigned, setAssigned] = useState(0);
   const [notAssigned, setNotAssigned] = useState(0);
@@ -32,7 +34,7 @@ export const Reports = () => {
   let { idRequest } = useParams();
 
   useEffect(() => {
-    if (!userLogin || now.toUTCString() >= expires) {
+    if (!userLogin || now.valueOf() >= expiresDate.valueOf()) {
       history('/');
     }
     getRequestListEngineer();

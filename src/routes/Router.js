@@ -18,6 +18,7 @@ const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 const EditUser = Loadable(lazy(() => import('../views/authentication/EditUser')));
+const Csat = Loadable(lazy(() => import('../views/csat/csat')));
 
 const Router = [
   {
@@ -33,6 +34,8 @@ const Router = [
       { path: '/budgets', exact: true, element: <Budgets /> },
       { path: '/reports', exact: true, element: <Reports /> },
       { path: '/edit-user', exact: true, element: <EditUser /> },
+      { path: '/csat/:idRequest/:idEngineer', exact: true, element: <Csat /> },
+
     ],
   },
   {

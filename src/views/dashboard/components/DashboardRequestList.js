@@ -4,6 +4,7 @@ import { useState } from 'react';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import IconButton from '@mui/material/IconButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import StarIcon from '@mui/icons-material/Star';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate, Link } from 'react-router-dom';
@@ -35,6 +36,11 @@ export const DashboardRequestList = ({ requests, engineer }) => {
 
   const requestDetails = async (id) => {
     history(`/request-details/${id}`);
+  };
+
+  
+  const addRate = async (id,idEngineer) => {
+    history(`/csat/${id}/${idEngineer}`);
   };
 
   return (
@@ -124,6 +130,20 @@ export const DashboardRequestList = ({ requests, engineer }) => {
                           <PersonAddIcon />
                         </IconButton>
                       )}
+                    </Typography>
+                  </TableCell>
+                )}
+                {request.status === 3 && !request.hasCsat && !engineer && (
+                  <TableCell>
+                    <Typography
+                      sx={{
+                        fontSize: '15px',
+                        fontWeight: '500',
+                      }}
+                    >
+                      <IconButton aria-label="delete" onClick={() => addRate(request.id,request.idEngineer)}>
+                        <StarIcon />
+                      </IconButton>
                     </Typography>
                   </TableCell>
                 )}

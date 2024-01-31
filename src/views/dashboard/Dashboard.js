@@ -15,11 +15,13 @@ export const Dashboard = () => {
   const expires = Cookie.get('expires');
   const userType = Cookie.get('userType');
   var now = new Date();
+  var expiresDate = new Date(expires);
   const history = useNavigate();
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    if (!userLogin || now.toUTCString() >= expires) {
+
+    if (!userLogin || now.valueOf() >= expiresDate.valueOf()) {
       history('/');
     } else if (userType === 2) {
       getRequestList();

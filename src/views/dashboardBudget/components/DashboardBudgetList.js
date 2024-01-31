@@ -19,8 +19,6 @@ import { BudgetService } from '../../../api/BudgetService';
 
 export const DashboardBudgetList = ({ budgets }) => {
   const history = useNavigate();
-  const userLogin = Cookie.get('email');
-  const expires = Cookie.get('expires');
   const userType = Cookie.get('userType');
 
   const editBudget = async (id) => {

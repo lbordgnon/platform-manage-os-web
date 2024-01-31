@@ -17,9 +17,7 @@ import AddCommentIcon from '@mui/icons-material/AddComment';
 
 export const DashboardCommentRequestList = ({ commentRequests, requestId }) => {
   const history = useNavigate();
-  const userLogin = Cookie.get('email');
-  const expires = Cookie.get('expires');
-  const userType = Cookie.get('userType');
+
 
   const addCommentRequest = () => {
     history(`/create-comment-request/${requestId}`);
