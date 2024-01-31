@@ -1,19 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Typography, Grid, Button } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { RequestService } from '../../api/RequestService';
-import { ClienteService } from '../../api/ClienteService';
-import { EngineerService } from '../../api/EngineerService';
-import { BudgetService } from '../../api/BudgetService';
-import { useNavigate, useParams } from 'react-router-dom';
-import Stack from '@mui/material/Stack';
+import { CsatService } from '../../api/CsatService';
+
+import { useNavigate } from 'react-router-dom';
 import Cookie from 'js.cookie';
-import { statusRequest } from '../../constants/Constants';
-import DashboardBudgetList from '../dashboardBudget/components/DashboardBudgetList';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { PieChart } from '@mui/x-charts/PieChart';
+import Chart from 'react-apexcharts';
 
 export const Reports = () => {
   const userLogin = Cookie.get('email');
@@ -23,6 +19,8 @@ export const Reports = () => {
   var expiresDate = new Date(expires);
 
   const [requestList, setRequestList] = useState([]);
+  const [csatList, setCsatList] = useState([]);
+  const [rate, setRate] = useState(0);
   const [assigned, setAssigned] = useState(0);
   const [notAssigned, setNotAssigned] = useState(0);
   const [analysis, setAnalysis] = useState(0);
@@ -31,14 +29,14 @@ export const Reports = () => {
   const [canceled, setCanceled] = useState(0);
 
   const history = useNavigate();
-  let { idRequest } = useParams();
 
   useEffect(() => {
     if (!userLogin || now.valueOf() >= expiresDate.valueOf()) {
       history('/');
     }
+    getRatingByEngineer();
     getRequestListEngineer();
-  });
+  }, []);
 
   const getRequestListEngineer = async () => {
     await RequestService.getRequestListEngineer().then(function (response) {
@@ -53,6 +51,22 @@ export const Reports = () => {
       }
     });
   };
+
+  const getRatingByEngineer = async () => {
+    await CsatService.getRatingByEngineer(userLogin).then(function (response) {
+      setCsatList(response.data);
+    });
+  };
+
+  useEffect(() => {
+    let sum = csatList.reduce(function (accumulator, object) {
+      return accumulator + object.rate;
+    }, 0);
+  
+
+    sum = sum / csatList.length * 20;
+    setRate(sum.toFixed(1));
+  }, [csatList]);
 
   return (
     <PageContainer title="Typography" description="this is Typography">
@@ -101,6 +115,25 @@ export const Reports = () => {
               series={[{ data: [requestList.length, analysis, inProgress, completed, canceled] }]}
               width={800}
               height={300}
+            />
+            <Chart
+              options={{
+                chart: {
+                  height: 350,
+                  type: 'radialBar',
+                },
+                plotOptions: {
+                  radialBar: {
+                    hollow: {
+                      size: '70%',
+                    },
+                  },
+                },
+                labels: ['CSAT'],
+              }}
+              series={[rate]}
+              type="radialBar"
+              height={320}
             />
           </DashboardCard>
         </Grid>

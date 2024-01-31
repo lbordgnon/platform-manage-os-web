@@ -9,5 +9,10 @@ export class CsatService {
       idEngineer,
       rate,
     });
+  } 
+  
+  static async getRatingByEngineer(emailEngineer) {
+    return await axios.get(`/Rating/getRatingByEngineer?emailEngineer=${emailEngineer}`);
   }
+
 }
