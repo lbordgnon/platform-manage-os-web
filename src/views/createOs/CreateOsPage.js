@@ -15,8 +15,9 @@ export const CreateOsPage = () => {
   const [description, setDescription] = useState('');
   const userLogin = Cookie.get('email');
   const expires = Cookie.get('expires');
-  const userType = Cookie.get('userType');
   var now = new Date();
+  var expiresDate = new Date(expires);
+
   const [showErrorTitle, setShowErrorTitle] = useState(false);
   const [showErrorDescription, setShowErrorDescription] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
@@ -26,7 +27,7 @@ export const CreateOsPage = () => {
   let { idRequest } = useParams();
 
   useEffect(() => {
-    if (!userLogin || now.toUTCString() >= expires) {
+    if (!userLogin || now.valueOf() >= expiresDate.valueOf()) {
       history('/');
     }
     if (idRequest) {

@@ -22,8 +22,8 @@ export const CreateBudget = () => {
   const [id, setId] = useState('');
   const userLogin = Cookie.get('email');
   const expires = Cookie.get('expires');
-  const userType = Cookie.get('userType');
   var now = new Date();
+  var expiresDate = new Date(expires);
   const [showErrorTitle, setShowErrorTitle] = useState(false);
   const [showErrorDescription, setShowErrorDescription] = useState(false);
   const [showErrorBudgetValue, setShowErrorBudgetValue] = useState(false);
@@ -37,7 +37,7 @@ export const CreateBudget = () => {
   const [requestResponse, setRequestResponse] = useState({});
 
   useEffect(() => {
-    if (!userLogin || now.toUTCString() >= expires) {
+    if (!userLogin || now.valueOf() >= expiresDate.valueOf()) {
       history('/');
     }
     getRequestByEngineer();

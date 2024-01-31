@@ -20,6 +20,8 @@ export const RequestDetails = () => {
   const expires = Cookie.get('expires');
   const userType = Cookie.get('userType');
   var now = new Date();
+  var expiresDate = new Date(expires);
+
   const [requestResponse, setRequestResponse] = useState({});
   const [clientResponse, setClientResponse] = useState('');
   const [engineerResponse, setEngineerResponse] = useState('');
@@ -30,7 +32,7 @@ export const RequestDetails = () => {
   let { idRequest } = useParams();
 
   useEffect(() => {
-    if (!userLogin || now.toUTCString() >= expires || !idRequest) {
+    if (!userLogin || now.valueOf() >= expiresDate.valueOf() || !idRequest) {
       history('/');
     }
     getRequestById();
@@ -86,8 +88,6 @@ export const RequestDetails = () => {
 
   const conclusionOS = async (id) => {
     await RequestService.conclusionOS(id)
-      .then(function (response) {})
-      .catch(function (error) {});
   };
 
   return (
@@ -193,7 +193,7 @@ export const RequestDetails = () => {
           />
         </Grid>
       </Grid>
-      {requestResponse.status <= 2 && (
+      {requestResponse.status <= 2 && userType === 1 && (
         <Grid container spacing={6}>
           <Grid item sm={12}>
             <Button

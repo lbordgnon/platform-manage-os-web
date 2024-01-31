@@ -6,7 +6,7 @@ import DashboardCard from '../../components/shared/DashboardCard';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
 import { RequestService } from '../../api/RequestService';
 import { CommentRequestService } from '../../api/CommentRequestService';
-import {useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import Cookie from 'js.cookie';
@@ -16,7 +16,7 @@ export const CreateCommentRequest = () => {
   const [description, setDescription] = useState('');
   const userLogin = Cookie.get('email');
   const expires = Cookie.get('expires');
-  const userType = Cookie.get('userType');
+  var expiresDate = new Date(expires);
   var now = new Date();
   const [showErrorDescription, setShowErrorDescription] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
@@ -26,7 +26,7 @@ export const CreateCommentRequest = () => {
   let { idRequest } = useParams();
 
   useEffect(() => {
-    if (!userLogin || now.toUTCString() >= expires || !idRequest) {
+    if (!userLogin || now.valueOf() >= expiresDate.valueOf() || !idRequest) {
       history('/');
     }
   }, []);
@@ -58,7 +58,6 @@ export const CreateCommentRequest = () => {
         setOpenAlert(true);
       });
   };
-
 
   return (
     <PageContainer title="Typography" description="this is Typography">
