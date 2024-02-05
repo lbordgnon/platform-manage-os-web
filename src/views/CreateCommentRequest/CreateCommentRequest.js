@@ -4,7 +4,6 @@ import { Typography, Grid, Button } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
-import { RequestService } from '../../api/RequestService';
 import { CommentRequestService } from '../../api/CommentRequestService';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
@@ -12,7 +11,6 @@ import Alert from '@mui/material/Alert';
 import Cookie from 'js.cookie';
 
 export const CreateCommentRequest = () => {
-  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const userLogin = Cookie.get('email');
   const expires = Cookie.get('expires');

@@ -5,7 +5,7 @@ import { RequestService } from '../../api/RequestService';
 import { useState, useEffect } from 'react';
 import DashboardRequestList from './components/DashboardRequestList';
 import Cookie from 'js.cookie';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 

@@ -7,11 +7,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Button,
 } from '@mui/material';
 import DashboardCard from '../../../components/shared/DashboardCard';
-import { useNavigate, Link } from 'react-router-dom';
-import Cookie from 'js.cookie';
+import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 

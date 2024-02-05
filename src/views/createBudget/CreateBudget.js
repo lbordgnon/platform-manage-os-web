@@ -19,7 +19,6 @@ export const CreateBudget = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [budgetValue, setBudgetValue] = useState();
-  const [id, setId] = useState('');
   const userLogin = Cookie.get('email');
   const expires = Cookie.get('expires');
   var now = new Date();
@@ -120,18 +119,14 @@ export const CreateBudget = () => {
         setTitle(response.data.title);
         setDescription(response.data.description);
         setBudgetValue(response.data.value);
-        setId(response.data.idRequest);
         getRequestById(response.data.idRequest)
       })
       .catch(function (error) {});
   };
 
-  const handleClose = () => {
-    setOpenAlert(false);
-  };
 
   const handleChangeBudgetValue = (value) => {
-    if (value == '') {
+    if (value === '') {
       return setBudgetValue(0);
     }
     var numsStr = value.replace(/[^0-9]/g, '');

@@ -14,7 +14,6 @@ import generatePDF from 'react-to-pdf';
 export const Reports = () => {
   const userLogin = Cookie.get('email');
   const expires = Cookie.get('expires');
-  const userType = Cookie.get('userType');
   var now = new Date();
   var expiresDate = new Date(expires);
   const targetRef = useRef();
