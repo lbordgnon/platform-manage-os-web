@@ -1,15 +1,15 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { Typography, Grid } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
+import { Typography, Grid, Button, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { RequestService } from '../../api/RequestService';
 import { CsatService } from '../../api/CsatService';
-
 import { useNavigate } from 'react-router-dom';
 import Cookie from 'js.cookie';
 import { BarChart } from '@mui/x-charts/BarChart';
 import Chart from 'react-apexcharts';
+import generatePDF from 'react-to-pdf';
 
 export const Reports = () => {
   const userLogin = Cookie.get('email');
@@ -17,7 +17,7 @@ export const Reports = () => {
   const userType = Cookie.get('userType');
   var now = new Date();
   var expiresDate = new Date(expires);
-
+  const targetRef = useRef();
   const [requestList, setRequestList] = useState([]);
   const [csatList, setCsatList] = useState([]);
   const [rate, setRate] = useState(0);
@@ -27,7 +27,6 @@ export const Reports = () => {
   const [inProgress, setInProgress] = useState(0);
   const [completed, setCompleted] = useState(0);
   const [canceled, setCanceled] = useState(0);
-
   const history = useNavigate();
 
   useEffect(() => {
@@ -62,9 +61,8 @@ export const Reports = () => {
     let sum = csatList.reduce(function (accumulator, object) {
       return accumulator + object.rate;
     }, 0);
-  
 
-    sum = sum / csatList.length * 20;
+    sum = (sum / csatList.length) * 20;
     setRate(sum.toFixed(1));
   }, [csatList]);
 
@@ -72,72 +70,86 @@ export const Reports = () => {
     <PageContainer title="Typography" description="this is Typography">
       <Grid container spacing={3}>
         <Grid item sm={12}>
-          <DashboardCard title="Relatórios">
-            <Typography
-              variant="subtitle1"
-              fontWeight={600}
-              component="label"
-              htmlFor="name"
-              mb="5px"
-            >
-              Relatório de chamados com Responsável Atribuído
-            </Typography>
-            <BarChart
-              xAxis={[
-                { scaleType: 'band', data: ['Total de chamados', 'Atribuídos', 'N/Atribuídos'] },
-              ]}
-              series={[{ data: [requestList.length, notAssigned, assigned] }]}
-              width={500}
-              height={300}
-            />
-            <Typography
-              variant="subtitle1"
-              fontWeight={600}
-              component="label"
-              htmlFor="name"
-              mb="5px"
-            >
-              Relatório de status dos chamados
-            </Typography>
-            <BarChart
-              xAxis={[
-                {
-                  scaleType: 'band',
-                  data: [
-                    'Total de chamados',
-                    'Em Análise',
-                    'Iniciados',
-                    'Concluídos',
-                    'Cancelados',
-                  ],
-                },
-              ]}
-              series={[{ data: [requestList.length, analysis, inProgress, completed, canceled] }]}
-              width={800}
-              height={300}
-            />
-            <Chart
-              options={{
-                chart: {
-                  height: 350,
-                  type: 'radialBar',
-                },
-                plotOptions: {
-                  radialBar: {
-                    hollow: {
-                      size: '70%',
+          <div ref={targetRef}>
+            <DashboardCard title="Relatórios">
+              <Typography
+                variant="subtitle1"
+                fontWeight={600}
+                component="label"
+                htmlFor="name"
+                mb="5px"
+              >
+                Relatório de chamados com Responsável Atribuído
+              </Typography>
+              <BarChart
+                xAxis={[
+                  { scaleType: 'band', data: ['Total de chamados', 'Atribuídos', 'N/Atribuídos'] },
+                ]}
+                series={[{ data: [requestList.length, notAssigned, assigned] }]}
+                width={500}
+                height={300}
+              />
+              <Typography
+                variant="subtitle1"
+                fontWeight={600}
+                component="label"
+                htmlFor="name"
+                mb="5px"
+              >
+                Relatório de status dos chamados
+              </Typography>
+              <BarChart
+                xAxis={[
+                  {
+                    scaleType: 'band',
+                    data: [
+                      'Total de chamados',
+                      'Em Análise',
+                      'Iniciados',
+                      'Concluídos',
+                      'Cancelados',
+                    ],
+                  },
+                ]}
+                series={[{ data: [requestList.length, analysis, inProgress, completed, canceled] }]}
+                width={800}
+                height={300}
+              />
+              <Chart
+                options={{
+                  chart: {
+                    height: 350,
+                    type: 'radialBar',
+                  },
+                  plotOptions: {
+                    radialBar: {
+                      hollow: {
+                        size: '70%',
+                      },
                     },
                   },
-                },
-                labels: ['CSAT'],
-              }}
-              series={[rate]}
-              type="radialBar"
-              height={320}
-            />
-          </DashboardCard>
+                  labels: ['CSAT'],
+                }}
+                series={[rate]}
+                type="radialBar"
+                height={320}
+              />
+            </DashboardCard>
+          </div>
         </Grid>
       </Grid>
+      <Box>
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          fullWidth
+          onClick={() => generatePDF(targetRef, { filename: 'relatórios.pdf' })}
+          type="submit"
+        >
+          Exportar relatórios em PDF
+        </Button>
+      </Box>
     </PageContainer>
   );
 };
