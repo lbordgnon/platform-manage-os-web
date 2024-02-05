@@ -1,10 +1,18 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { Typography, Grid, Button,  OutlinedInput,  InputAdornment,  IconButton, FormHelperText } from '@mui/material';
+import {
+  Typography,
+  Grid,
+  Button,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  FormHelperText,
+} from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import CustomTextField from '../../components/forms/theme-elements/CustomTextField';
-import { useNavigate, Link, useParams } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import Cookie from 'js.cookie';
@@ -17,7 +25,6 @@ export const CreateOsPage = () => {
   var now = new Date();
   var expiresDate = new Date(expires);
   const [disableButton, setDisableButton] = useState(true);
-  const [alertIsError, setAlertIsError] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const history = useNavigate();
   const [email, setEmail] = useState(userLogin);
@@ -33,13 +40,11 @@ export const CreateOsPage = () => {
     }
   }, []);
 
-  
   useEffect(() => {
-    if (password !== "") {
+    if (password !== '') {
       setDisableButton(false);
     }
-  }, );
-
+  });
 
   const validateEmail = () => {
     const emailIsValid = /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email);
@@ -67,16 +72,15 @@ export const CreateOsPage = () => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  
   const editUser = async () => {
-    const newLogin = email === userLogin ? "" : email
-    await UserService.editUser(userLogin,newLogin, password)
-    .then(function (response) {
-      history('/dashboard');
-    })
-    .catch(function (error) {
-      setOpenAlert(true);
-    });
+    const newLogin = email === userLogin ? '' : email;
+    await UserService.editUser(userLogin, newLogin, password)
+      .then(function (response) {
+        history('/dashboard');
+      })
+      .catch(function (error) {
+        setOpenAlert(true);
+      });
   };
 
   return (
@@ -156,11 +160,8 @@ export const CreateOsPage = () => {
                   </Button>
                   {openAlert && (
                     <Stack sx={{ width: '100%' }} spacing={2}>
-                      <Alert variant="filled" severity={alertIsError ? 'error' : 'success'}>
-                        {' '}
-                        {alertIsError
-                          ? 'Houve um erro com o sua OS, revise seus dados e tente novamente'
-                          : 'Ordem de serviço regristada com sucesso'}
+                      <Alert variant="filled" severity={'error'}>
+                        {'Houve um erro com o sua OS, revise seus dados e tente novamente'}
                       </Alert>
                     </Stack>
                   )}

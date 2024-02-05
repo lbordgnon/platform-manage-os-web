@@ -5,7 +5,6 @@ import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { RequestService } from '../../api/RequestService';
 import { CsatService } from '../../api/CsatService';
-
 import { useNavigate } from 'react-router-dom';
 import Cookie from 'js.cookie';
 import { BarChart } from '@mui/x-charts/BarChart';
@@ -14,7 +13,6 @@ import Chart from 'react-apexcharts';
 export const Reports = () => {
   const userLogin = Cookie.get('email');
   const expires = Cookie.get('expires');
-  const userType = Cookie.get('userType');
   var now = new Date();
   var expiresDate = new Date(expires);
 

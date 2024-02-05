@@ -7,13 +7,12 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Chip,
 } from '@mui/material';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import IconButton from '@mui/material/IconButton';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import CheckIcon from '@mui/icons-material/Check';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Cookie from 'js.cookie';
 import { BudgetService } from '../../../api/BudgetService';
 

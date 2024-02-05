@@ -95,9 +95,6 @@ export const CreateOsPage = () => {
       .catch(function (error) {});
   };
 
-  const handleClose = () => {
-    setOpenAlert(false);
-  };
 
   return (
     <PageContainer title="Typography" description="this is Typography">

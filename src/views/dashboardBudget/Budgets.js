@@ -5,7 +5,7 @@ import { BudgetService } from '../../api/BudgetService';
 import { useState, useEffect } from 'react';
 import DashboardBudgetList from './components/DashboardBudgetList';
 import Cookie from 'js.cookie';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const Budgets = () => {
   const [budgetsList, setBudgetsList] = useState([]);
