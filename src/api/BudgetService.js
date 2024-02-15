@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:5188/api';
+axios.defaults.baseURL = 'https://ms-manage-os.azurewebsites.net/api';
 
 export class BudgetService {
 

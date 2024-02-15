@@ -120,6 +120,7 @@ export const AuthLogin = ({ title, subtitle, subtext }) => {
             fullWidth
             id="filled-adornment-password"
             variant="outlined"
+            type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
