@@ -9,7 +9,7 @@ import {
   InputAdornment,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserService } from '../../../api/UserService';
 import { ClienteService } from '../../../api/ClienteService';
 import Alert from '@mui/material/Alert';
@@ -140,17 +140,6 @@ export const AuthLogin = ({ title, subtitle, subtext }) => {
         </Box>
 
         <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
-          <Typography
-            component={Link}
-            to="/"
-            fontWeight="500"
-            sx={{
-              textDecoration: 'none',
-              color: 'primary.main',
-            }}
-          >
-            Esqueceu a senha?
-          </Typography>
         </Stack>
       </Stack>
       <Box>
