@@ -36,17 +36,23 @@ export const Reports = () => {
     getRequestListEngineer();
   }, []);
 
+  useEffect(() => {
+    if (requestList) {
+      setAssigned(requestList.filter((request) => request.idEngineer == null).length);
+      setNotAssigned(requestList.filter((request) => request.idEngineer != null).length);
+      setAnalysis(requestList.filter((request) => request.status === 1).length);
+      setInProgress(requestList.filter((request) => request.status === 2).length);
+      setCompleted(requestList.filter((request) => request.status === 3).length);
+      setCanceled(requestList.filter((request) => request.status === 4).length);
+    }
+  }, [requestList]);
+
+
+
+
   const getRequestListEngineer = async () => {
     await RequestService.getRequestListEngineer().then(function (response) {
       setRequestList(response.data);
-      if (requestList) {
-        setAssigned(requestList.filter((request) => request.idEngineer == null).length);
-        setNotAssigned(requestList.filter((request) => request.idEngineer != null).length);
-        setAnalysis(requestList.filter((request) => request.status === 1).length);
-        setInProgress(requestList.filter((request) => request.status === 2).length);
-        setCompleted(requestList.filter((request) => request.status === 3).length);
-        setCanceled(requestList.filter((request) => request.status === 4).length);
-      }
     });
   };
 
@@ -64,6 +70,7 @@ export const Reports = () => {
     sum = (sum / csatList.length) * 20;
     setRate(sum.toFixed(1));
   }, [csatList]);
+  
 
   return (
     <PageContainer title="Typography" description="this is Typography">

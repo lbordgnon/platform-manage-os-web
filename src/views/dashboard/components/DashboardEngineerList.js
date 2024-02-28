@@ -39,7 +39,7 @@ export const DashboardEngineerList = ({ engineers }) => {
               </TableCell>
               <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
-                  FederalId
+                  CPF
                 </Typography>
               </TableCell>
               <TableCell>
